@@ -30,3 +30,10 @@ Route::get('/logout', [SessionController::class, 'destroy'])->middleware('auth')
 #Routes Admin 
 
 Route::get('/Admin',[AdminController::class, 'index'])->middleware('auth.admin')->name('admin.index');
+
+
+
+#No se que estoy haciendo jiji
+Route::get('/user-profile.html', function () {
+    return view('/pages/user-profile');
+});#->middleware('auth')->name('user-profile');;
