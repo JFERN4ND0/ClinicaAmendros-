@@ -43,6 +43,7 @@
                 </div>
 
                 <div class="col-md-12">
+                    @yield('datos')
                 </div>
 
             </div>
