@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use  App\Models\User;
+use Illuminate\Contracts\Cache\Store;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class VistaController extends Controller
 {
@@ -24,42 +27,48 @@ class VistaController extends Controller
         ]);
     } */
 
-    /* public function update(Request $request, $id)
+    public function updateimg(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            // 'password' => 'required',
+            'file' => 'required|image|max:2048'
         ]);
+        // return $request->file('file');
+        $image =  $request->file('file');
+        $nombre = $image->getClientOriginalName();
+        // $request->file('file')->store('imgProfile');
+        Storage::disk('public')->put($nombre, file_get_contents($request->file('file')->getPathName()));
 
-        $user = User::find($id);
-        $user->name = $request->name;
-        $user->email = $request->email;
+        // return $nombre;
+    }
 
-        dd($user);
-
-        return view('login.login');
-    } */
-
-    public function update()
+    public function update(Request $request)
     {
-        $this->validate(
-            request(),
+        $request->validate(
             [
                 // 'id' => '',
                 'name' => 'required',
                 'email' => 'required|email',
+                'file' => 'image|max:2048',
                 // 'password' => 'required',
             ]
         );
 
-        // dd($this);
-        $user = User::find(request('id'));
+        $nombre = auth()->user()->imgProfile;
+
+        if ($request->file('file')) {
+            $image =  $request->file('file');
+            $nombre = $image->getClientOriginalName();
+            Storage::disk('public')->put($nombre, file_get_contents($request->file('file')->getPathName()));
+        }
+
+        /* $user = User::find(request('id'));
         $user->name = request('name');
         $user->email = request('email');
-        $user->save();
-        // dd($user);
+        $user->imgProfile = $nombre;
+        $user->save(); */
 
-        return view('pagues/user-profile');
+        DB::table('users')->where('id', request('id'))->update(['name' => request('name'), 'email' => request('email'), 'imgProfile' => $nombre]);
+
+        return view('Home');
     }
 }

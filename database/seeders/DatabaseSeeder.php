@@ -24,23 +24,20 @@ class DatabaseSeeder extends Seeder
 
         //user Admin
         $user = new User;
-        $user->name ='Admin';
-        $user->email='Admin@gmail.com';
-        $user->password='1234';
-        $user->role='admin';
+        $user->name = 'Admin';
+        $user->email = 'Admin@gmail.com';
+        $user->password = '1234';
+        $user->imgProfile = './src/assets/img/profile-30.png';
+        $user->role = 'admin';
 
         $user->save();
         //user 
         $user2 = new User;
-        $user2->name ='Usertest';
-        $user2->email='User@gmail.com';
-        $user2->password='1234';
-        
+        $user2->name = 'Usertest';
+        $user2->email = 'User@gmail.com';
+        $user2->password = '1234';
+        $user2->imgProfile = './src/assets/img/profile-30.png';
+
         $user2->save();
     }
-
-
-    }
-
-
-
+}
